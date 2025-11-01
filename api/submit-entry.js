@@ -1,4 +1,3 @@
-console.log("Form submitted:", req.body);
 // api/submit-entry.js
 import { Resend } from 'resend';
 import { google } from 'googleapis';
@@ -193,6 +192,7 @@ function getEmailHtml(name, uniqueCode) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+    console.log("Form submitted:", req.body);
   }
 
   const { name, address, email, phone } = req.body;
