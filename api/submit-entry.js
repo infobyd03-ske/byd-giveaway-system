@@ -1,3 +1,4 @@
+console.log("Form submitted:", req.body);
 // api/submit-entry.js
 import { Resend } from 'resend';
 import { google } from 'googleapis';
