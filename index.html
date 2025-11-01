@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYD Giveaway Entry</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    .form-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #e63946;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background: #e63946;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #d90429;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>🎉 Enter BYD Giveaway</h2>
+    <p>Fill in your details to receive your exclusive claim code.</p>
+    
+    <form id="entryForm">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <textarea name="address" placeholder="Full Address" required rows="3"></textarea>
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <button type="submit">Send My Claim Code</button>
+    </form>
+    
+    <div id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('entryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      const res = await fetch('/api/submit-entry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      const msgDiv = document.getElementById('message');
+      if (res.ok) {
+        msgDiv.innerHTML = '<div class="message success">✅ Check your email! Your claim code has been sent.</div>';
+        e.target.reset();
+      } else {
+        msgDiv.innerHTML = <div class="message error">❌ ${result.error || 'Failed. Please try again.'}</div>;
+      }
+    });
+  </script>
+</body>
+</html>
